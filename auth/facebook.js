@@ -8,7 +8,7 @@ var router = express.Router();
 passport.use(new FacebookStrategy({
     clientID: process.env.clientID,
     clientSecret: process.env.clientSecret,
-    callbackURL: "http://localhost:3000/auth/facebook/callback"
+    callbackURL: "https://rocky-bastion-95868.herokuapp.com/auth/facebook/callback"
 }, function (accessToken, refreshToken, profile, done) {
     User.findOne({ socialId: profile.id }, function (err, user) {
         if (err) return done(err);
