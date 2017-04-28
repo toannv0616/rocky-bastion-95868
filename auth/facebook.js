@@ -13,19 +13,20 @@ passport.use(new FacebookStrategy({
     User.findOne({ socialId: profile.id }, function (err, user) {
         if (err) return done(err);
         if (!user) {
-            done(null, user);
+            var newUser = new User({ username: profile.displayName, socialId: profile.id });
+            newUser.save(function (err, user) {
+                if (err) return done(err);
+                done(null, user);
+            });
         }
-        var newUser = new User({ username: profile.displayName, socialId: profile.id });
-        newUser.save(function (err, user) {
-            if (err) return done(err);
-            done(null, user);
-        });
+        done(null, user);
     });
 }));
 
 module.exports = {
     authFacebook: passport.authenticate('facebook'),
     authFacebookCallback: passport.authenticate('facebook', {
-        successRedirect: '/', failureRedirect: '/login'
+        successRedirect: '/',
+        failureRedirect: '/login'
     })
 };
