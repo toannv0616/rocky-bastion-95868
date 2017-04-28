@@ -4,7 +4,7 @@ var Schema = mongoose.Schema;
 var userSchema = new Schema({
     username: String,
     password: String,
-    socialID: String,
+    facebookId: String,
     avatar: String
 });
 

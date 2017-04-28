@@ -10,15 +10,20 @@ passport.use(new FacebookStrategy({
     clientSecret: process.env.clientSecret,
     callbackURL: "https://rocky-bastion-95868.herokuapp.com/auth/facebook/callback"
 }, function (accessToken, refreshToken, profile, done) {
-    User.findOne({ socialId: profile.id }, function (err, user) {
+    // User.findOne({ facebookId: profile.id }, function (err, user) {
+    //     if (err) return done(err);
+    //     if (!user) {
+    //         var newUser = new User({ username: profile.displayName, facebookId: profile.id });
+    //         newUser.save(function (err, user) {
+    //             if (err) return done(err);
+    //             return done(null, user);
+    //         });
+    //     }
+    //     done(null, user);
+    // });
+    var newUser = new User({ username: profile.displayName, facebookId: profile.id });
+    newUser.save(function (err, user) {
         if (err) return done(err);
-        if (!user) {
-            var newUser = new User({ username: profile.displayName, socialId: profile.id });
-            newUser.save(function (err, user) {
-                if (err) return done(err);
-                return done(null, user);
-            });
-        }
         done(null, user);
     });
 }));
